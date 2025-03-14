@@ -11,14 +11,6 @@ nextflow.enable.dsl=2
 * Modify the input files and command options to suit your dataset and pySCENIC version.
 */
 
-params.expr         = 'input_loom/exp6.legos.loom'
-params.genes        = 'databases/hs_hgnc_tfs.txt'
-params.genes_motifs = 'databases/databases/hg38_10kbp_up_10kbp_down_full_tx_v10_clust.genes_vs_motifs.rankings.feather'
-params.motifs       = '/databases/motifs-v10nr_clust-nr.hgnc-m0.001-o0.0.tbl'
-params.container    = 'apptainer://data/containers/lee_s/aertslab-pyscenic-0.12.1.sif'  // Replace with your container path
-params.project      = 'exp6'
-myseed              = 12345
-
 
 // Process for GRN Inference using pySCENIC grn
 process GRN {
@@ -80,7 +72,7 @@ process AUCell {
     container params.container
     cpus 12
     time "1h"
-    publishDir "results/${params.project}", mode: 'copy'
+    publishDir "results/${params.project}/${seed}", mode: 'copy'
 
     input:
     path(expr)
@@ -91,7 +83,7 @@ process AUCell {
     path(output)
 
     script:
-    output = "auc_${seed}_output.tsv"
+    output = "auc_output.tsv"
     """
     pyscenic aucell \
         ${expr} \
