@@ -31,7 +31,7 @@ process GRN {
     pyscenic grn \
         -o grn_output.tsv \
         --num_workers ${task.cpus} \
-        --method grenboost2 \
+        --method grnboost2 \
         --seed ${seed} \
         ${expr} \
         ${genes} 
@@ -95,9 +95,9 @@ process AUCell {
 
 // Define the workflow by chaining the processes
 workflow {
-    grn_ch = GRN(params.expr, params.genes, myseed)   // Run GRN inference
+    grn_ch = GRN(file(params.expr), file(params.genes), params.myseed)   // Run GRN inference
     
-    ctx_ch = CTX(params.expr, grn_ch, params.genes_motifs, params.motifs)   // Run motif enrichment using the GRN output
+    ctx_ch = CTX(file(params.expr), grn_ch, file(params.genes_motifs), file(params.motifs))   // Run motif enrichment using the GRN output
     
-    auc_ch = AUCell(params.expr, ctx_ch)// Run regulon activity scoring using the expression matrix and CTX output
+    auc_ch = AUCell(file(params.expr), ctx_ch, params.myseed) // Run regulon activity scoring using the expression matrix and CTX output
 }
