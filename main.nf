@@ -16,6 +16,7 @@ nextflow.enable.dsl=2
 process GRN {
     container params.container
     cpus 16
+    memory "100.G"
     time "1h"
 
     input:
@@ -42,6 +43,7 @@ process GRN {
 process CTX {
     container params.container
     cpus 16
+    memory "100.G"
     time "1h"
 
 
@@ -71,6 +73,7 @@ process CTX {
 process AUCell {
     container params.container
     cpus 12
+    memory "100.G"
     time "1h"
     publishDir "results/${params.project}/${seed}", mode: 'copy'
 
