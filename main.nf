@@ -25,7 +25,7 @@ process GRN {
     val(seed)
 
     output:
-    path("grn_output.tsv")
+    tuple val(seed), path("grn_output.tsv")
 
     script:
     """
@@ -48,13 +48,13 @@ process CTX {
 
 
     input:
+    tuple val(seed), path(grn_file)
     path(expr)
-    path(grn_file)
     path(gene_motifs)
     path(motifs)
 
     output:
-    path("ctx_output.tsv")
+    tuple val(seed), path("ctx_output.tsv")
 
     script:
     """
@@ -78,10 +78,9 @@ process AUCell {
     publishDir "results/${params.project}/${seed}", mode: 'copy'
 
     input:
+    tuple val(seed), path(ctx_file)
     path(expr)
-    path(ctx_file)
-    val(seed)
-
+    
     output:
     path(output)
 
@@ -96,11 +95,27 @@ process AUCell {
     """
 }
 
+// // Generate 50 random seeds
+seeds_ch = Channel.of( 1000..9999 )
+    .randomSample( ${params.nruns} )
+
 // Define the workflow by chaining the processes
 workflow {
-    grn_ch = GRN(file(params.expr), file(params.genes), params.myseed)   // Run GRN inference
+    grn_ch = GRN(
+        file(params.expr),
+        file(params.genes),
+        seeds_ch
+    )   // Run GRN inference
     
-    ctx_ch = CTX(file(params.expr), grn_ch, file(params.genes_motifs), file(params.motifs))   // Run motif enrichment using the GRN output
+    ctx_ch = CTX(
+        grn_ch, 
+        file(params.expr),
+        file(params.genes_motifs), 
+        file(params.motifs)
+    )   // Run motif enrichment using the GRN output
     
-    auc_ch = AUCell(file(params.expr), ctx_ch, params.myseed) // Run regulon activity scoring using the expression matrix and CTX output
+    auc_ch = AUCell(
+        ctx_ch,
+        file(params.expr)
+    ) // Run regulon activity scoring using the expression matrix and CTX output
 }
