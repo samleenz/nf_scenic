@@ -17,7 +17,7 @@ process GRN {
     container params.container
     cpus 16
     memory "100.G"
-    time "1h"
+    time "3h"
 
     input:
     path(expr)
@@ -44,7 +44,7 @@ process CTX {
     container params.container
     cpus 16
     memory "100.G"
-    time "1h"
+    time "3h"
 
 
     input:
@@ -74,7 +74,7 @@ process AUCell {
     container params.container
     cpus 12
     memory "100.G"
-    time "1h"
+    time "3h"
     publishDir "results/${params.project}/${seed}", mode: 'copy'
 
     input:
