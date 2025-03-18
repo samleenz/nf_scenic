@@ -60,7 +60,7 @@ process CTX {
     """
     pyscenic ctx \
         ${grn_file} \
-        ${genes_motifs} \
+        ${gene_motifs} \
         --annotations_fname ${motifs} \
         --expression_mtx_fname ${expr}\
         -o ctx_output.tsv \
