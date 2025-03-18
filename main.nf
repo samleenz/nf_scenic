@@ -97,7 +97,7 @@ process AUCell {
 
 // // Generate 50 random seeds
 seeds_ch = Channel.of( 1000..9999 )
-    .randomSample( "${params.nruns}", seed: "${params.myseed}" )
+    .randomSample( params.nruns )
 
 // Define the workflow by chaining the processes
 workflow {
