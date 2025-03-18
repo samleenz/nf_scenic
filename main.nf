@@ -80,7 +80,7 @@ process AUCell {
     input:
     path(expr)
     path(ctx_file)
-    path(seed)
+    val(seed)
 
     output:
     path(output)
