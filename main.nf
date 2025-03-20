@@ -16,7 +16,7 @@ nextflow.enable.dsl=2
 process GRN {
     container params.container
     cpus 16
-    memory "50.G"
+    memory "100.G"
     time "4h"
 
     input:
