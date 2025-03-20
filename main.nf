@@ -85,7 +85,7 @@ process AUCell {
     path(output)
 
     script:
-    output = "auc_output.tsv"
+    output = "auc_output.loom"
     """
     pyscenic aucell \
         ${expr} \
