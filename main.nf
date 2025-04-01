@@ -54,7 +54,7 @@ process CTX {
     path(motifs)
 
     output:
-    path("ctx_output.tsv")
+    path(output)
 
     script:
     output = "ctx_output_${seed}.loom"
@@ -64,7 +64,7 @@ process CTX {
         ${gene_motifs} \
         --annotations_fname ${motifs} \
         --expression_mtx_fname ${expr}\
-        -o ctx_output.tsv \
+        -o ${output} \
         --mask_dropouts \
         --num_workers ${task.cpus}
     """
