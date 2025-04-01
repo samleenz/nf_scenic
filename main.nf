@@ -54,9 +54,10 @@ process CTX {
     path(motifs)
 
     output:
-    tuple val(seed), path("ctx_output.tsv")
+    tuple path("ctx_output.tsv")
 
     script:
+    output = "ctx_output_${seed}.loom"
     """
     pyscenic ctx \
         ${grn_file} \
@@ -69,6 +70,26 @@ process CTX {
     """
 }
 
+// Process to generate HC regulons from the ctx output
+process HCRegulons {
+    container params.container_r
+    cpus 1
+    memory "32G"
+    time "30m"
+
+    input:
+    path(ctx_files)
+
+    output:
+    path(output)
+
+    script:
+    output = "hc_regulons.gmt"
+    """
+    Rscript combine_ctx.R ${ctx_files}}
+    """
+}
+
 // Process for scoring regulon activity using pySCENIC aucell
 process AUCell {
     container params.container
@@ -78,7 +99,7 @@ process AUCell {
     publishDir "results/${params.project}/${seed}", mode: 'copy'
 
     input:
-    tuple val(seed), path(ctx_file)
+    path(ctx_file)
     path(expr)
     
     output:
@@ -114,8 +135,12 @@ workflow {
         file(params.motifs)
     )   // Run motif enrichment using the GRN output
     
+    hc_ch = HCRegulons(
+        ctx_ch.combine
+    ) // Generate HC regulons from the CTX output
+
     auc_ch = AUCell(
-        ctx_ch,
+        hc_ch,
         file(params.expr)
-    ) // Run regulon activity scoring using the expression matrix and CTX output
+    ) // Run regulon activity scoring using the expression matrix and HC regulons
 }
