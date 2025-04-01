@@ -57,7 +57,7 @@ process CTX {
     path(output)
 
     script:
-    output = "ctx_output_${seed}.loom"
+    output = "ctx_output_${seed}.tsv"
     """
     pyscenic ctx \
         ${grn_file} \
