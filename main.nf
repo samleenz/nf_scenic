@@ -54,7 +54,7 @@ process CTX {
     path(motifs)
 
     output:
-    tuple path("ctx_output.tsv")
+    path("ctx_output.tsv")
 
     script:
     output = "ctx_output_${seed}.loom"
