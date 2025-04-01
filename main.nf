@@ -86,7 +86,7 @@ process HCRegulons {
     script:
     output = "hc_regulons.gmt"
     """
-    Rscript combine_ctx.R ${ctx_files}}
+    ./combine_ctx.R ${ctx_files}}
     """
 }
 
