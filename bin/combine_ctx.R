@@ -108,3 +108,8 @@ HC_regulons <- HC_genes[HC_regulon_df$TF]
 
 write_gmt(HC_regulons, "hc_regulons.gmt")
 
+# save regulon incidence as a table ---------------------------------------
+
+regulon_incidence |>
+  left_join(HC_genes_per_regulon, by = "TF") |>
+  write_tsv("regulon_incidence.tsv")

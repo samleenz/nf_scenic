@@ -76,15 +76,15 @@ process HCRegulons {
     cpus 1
     memory "32G"
     time "30m"
+    publishDir "results/${params.project}/combined_${params.nruns}", mode: 'copy'
 
     input:
     path(ctx_files)
 
     output:
-    path(output)
+    tuple path("hc_regulons.gmt"), path("regulon_incidence.tsv")
 
     script:
-    output = "hc_regulons.gmt"
     """
     combine_ctx.R ${ctx_files}
     """
@@ -135,7 +135,7 @@ workflow {
         file(params.motifs)
     )   // Run motif enrichment using the GRN output
     
-    hc_ch = HCRegulons(
+    hc_ch, metadata_ch = HCRegulons(
         ctx_ch.collect()
     ) // Generate HC regulons from the CTX output
 
