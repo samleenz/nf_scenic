@@ -106,5 +106,5 @@ HC_regulons <- HC_genes[HC_regulon_df$TF]
 ## see here for GMT file format 
 ## https://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats
 
-write_gmt(HC_regulons, "gene_sets.gmt")
+write_gmt(HC_regulons, "hc_regulons.gmt")
 
