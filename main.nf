@@ -82,7 +82,9 @@ process HCRegulons {
     path(ctx_files)
 
     output:
-    tuple path("hc_regulons.gmt"), path("regulon_incidence.tsv")
+    path("hc_regulons.gmt"), emit: regulons
+    path("regulon_incidence.tsv"), emit: metadata
+
 
     script:
     """
@@ -135,17 +137,10 @@ workflow {
         file(params.motifs)
     )   // Run motif enrichment using the GRN output
     
-    hc_metadata_ch = HCRegulons(
-    ctx_ch.collect()
-    )// Generate HC regulons from the CTX output
-
-    // Split tuple into two separate channels
-    hc_metadata_ch
-        .map { hc, metadata -> tuple(hc, metadata) }
-        .into { hc_ch; metadata_ch }
+    hc_ch = HCRegulons(ctx_ch) // Generate HC regulons from the CTX output
 
     auc_ch = AUCell(
-        hc_ch,
+        hc_ch.regulons,
         file(params.expr)
     ) // Run regulon activity scoring using the expression matrix and HC regulons
 }
