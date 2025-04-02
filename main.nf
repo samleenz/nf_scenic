@@ -84,6 +84,7 @@ process HCRegulons {
     output:
     path("hc_regulons.gmt"), emit: regulons
     path("regulon_incidence.tsv"), emit: metadata
+    path("regulon_gene_counts.tsv"), emit: regulon_gene_counts
 
 
     script:

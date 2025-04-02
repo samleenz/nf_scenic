@@ -75,9 +75,11 @@ min_n <- floor(0.8 * max(dfs$run))
 
 
 # list of HC genes per regulon
-HC_genes <- dfs |>
-  summarise(n = n(), .by = c(TF, genes)) |>
-  filter(n >= min_n) |>
+HC_genes_df <- dfs |>
+  summarise(n = n(), .by = c(TF, genes)) 
+
+HC_genes <- HC_genes_df |>
+  filter(n >= min_n)  |>
   my_split()
 
 HC_genes_per_regulon <- do.call("rbind", map(HC_genes, length)) |>
@@ -113,3 +115,6 @@ write_gmt(HC_regulons, "hc_regulons.gmt")
 regulon_incidence |>
   left_join(HC_genes_per_regulon, by = "TF") |>
   write_tsv("regulon_incidence.tsv")
+
+HC_genes_df |>
+  write_tsv("regulon_gene_counts.tsv")
