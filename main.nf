@@ -96,7 +96,7 @@ process AUCell {
     cpus 12
     memory "100.G"
     time "30m"
-    publishDir "results/${params.project}/${seed}", mode: 'copy'
+    publishDir "results/${params.project}/combined_${params.nruns}", mode: 'copy'
 
     input:
     path(ctx_file)
