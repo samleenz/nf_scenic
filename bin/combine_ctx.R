@@ -71,7 +71,7 @@ dfs <- purrr::map(cts, \(ctx){
 # identify HC genes -------------------------------------------------------
 
 ## an HC gene is found in >= 80% of runs for a regulon
-min_n <- floor(0.8 * max(dfs$run))
+min_n <- floor(0.5 * max(dfs$run))
 
 
 # list of HC genes per regulon
