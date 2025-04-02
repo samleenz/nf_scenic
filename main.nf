@@ -135,9 +135,14 @@ workflow {
         file(params.motifs)
     )   // Run motif enrichment using the GRN output
     
-    hc_ch, metadata_ch = HCRegulons(
-        ctx_ch.collect()
-    ) // Generate HC regulons from the CTX output
+    hc_metadata_ch = HCRegulons(
+    ctx_ch.collect()
+    )// Generate HC regulons from the CTX output
+
+    // Split tuple into two separate channels
+    hc_metadata_ch
+        .map { hc, metadata -> tuple(hc, metadata) }
+        .into { hc_ch; metadata_ch }
 
     auc_ch = AUCell(
         hc_ch,
