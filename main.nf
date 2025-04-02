@@ -137,7 +137,7 @@ workflow {
         file(params.motifs)
     )   // Run motif enrichment using the GRN output
     
-    hc_ch = HCRegulons(ctx_ch) // Generate HC regulons from the CTX output
+    hc_ch = HCRegulons(ctx_ch.collect()) // Generate HC regulons from the CTX output
 
     auc_ch = AUCell(
         hc_ch.regulons,
