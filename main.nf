@@ -17,7 +17,7 @@ process GRN {
     container params.container
     cpus 24
     memory "160.G"
-    time {8h * task.attempt}
+    time {8.hour * task.attempt}
 
     errorStrategy { task.exitStatus == 140 ? 'retry' : 'terminate' }
     maxRetries 3
@@ -47,7 +47,7 @@ process CTX {
     container params.container
     cpus 16
     memory "100.G"
-    time {1h * task.attempt}
+    time {1.hour * task.attempt}
 
     errorStrategy { task.exitStatus == 140 ? 'retry' : 'terminate' }
     maxRetries 3
