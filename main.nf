@@ -15,9 +15,9 @@ nextflow.enable.dsl=2
 // Process for GRN Inference using pySCENIC grn
 process GRN {
     container params.container
-    cpus 16
-    memory "100.G"
-    time "4h"
+    cpus 24
+    memory "160.G"
+    time "6h"
 
     input:
     path(expr)
@@ -44,7 +44,7 @@ process CTX {
     container params.container
     cpus 16
     memory "100.G"
-    time "30m"
+    time "1h"
 
 
     input:
