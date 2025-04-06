@@ -16,7 +16,7 @@ nextflow.enable.dsl=2
 process GRN {
     container params.container
     cpus 24
-    memory "160.G"
+    memory "240.G"
     time {8.hour * task.attempt}
 
     errorStrategy { task.exitStatus == 140 ? 'retry' : 'terminate' }
