@@ -63,6 +63,4 @@ This repository contains a Nextflow DSL2 pipeline to run a complete pySCENIC wor
 - Verify that the Apptainer container has pySCENIC properly installed and configured.
 - Adapt input file paths and parameters to suit your dataset and specific analysis requirements.
 
-## License
 
-This repository is private and proprietary. Redistribution is not permitted.
