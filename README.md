@@ -6,8 +6,6 @@ This repository contains a Nextflow DSL2 pipeline to run a complete pySCENIC wor
 - **Motif Enrichment/Context:** Performs motif enrichment with `pyscenic ctx`.
 - **Regulon Activity Scoring:** Scores regulon activity using `pyscenic aucell`.
 
-> **Note:** This repository is private.
-
 ## Prerequisites
 
 - [Nextflow](https://www.nextflow.io/) installed.
